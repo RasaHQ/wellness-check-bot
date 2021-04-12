@@ -7,16 +7,16 @@ This is a simple Rasa bot that uses a form to create a daily log of health infor
 
 
 ## Installation and Setup
-It is recommended to use Python 3.6 or Python 3.7 with rasa framework. Below are the steps to setup virtual env, install rasa open source & running the project
+It is recommended to use Python 3.6 or Python 3.7 with rasa framework. Below are the steps to setup virtual env, install rasa open source & running this project
 
-1. Clone current branch & open root directory in terminal.
+1. Clone current branch & open it's root directory in terminal.
 
 2. Create virtual env with python: `python3.7 -m venv ./venv` and activate it by `source ./venv/bin/activate`
 
 3. [Install rasa](https://rasa.com/docs/rasa/installation) `pip install rasa`
 
 ### Generating Trained Model
-Make sure python virtual env is active in terminal & your are good to train model.
+Make sure python virtual env is active in terminal & you are good to train model.
 ```shell
 rasa train
 ```
