@@ -39,21 +39,11 @@ responses:
   utter_greet:
   - text: Hi! It's time for your daily wellness check. Tracking healthy habits is a great way to measure your progress over time. Would you like to answer few questions about your health?
 
-  utter_cheer_up:
-  - text: 'Here is something to cheer you up:'
-    image: https://i.imgur.com/nGF1K8f.jpg
-
-  utter_did_that_help:
-  - text: Did that help you?
-
-  utter_happy:
-  - text: Great, carry on!
-
   utter_goodbye:
   - text: Bye
 
   utter_iamabot:
-  - text: I am just another bot trying to help you.
+  - text: I am a bot, powered by Rasa.
 
   utter_ask_health_form_confirm_exercise:
   - text: Did you exercise yesterday? Don't sweat it if you didn't run a marathon - walks count!
@@ -69,6 +59,13 @@ responses:
 
   utter_ask_health_form_stress:
   - text: Is your stress level low, medium or high 🧘🏼?
+    buttons:
+    - title: "Low"
+      payload: '/inform{{"stress": "low"}}'
+    - title: "Medium"
+      payload: '/inform{{"stress": "medium"}}'
+    - title: "High"
+      payload: '/inform{{"stress": "high"}}'
 
   utter_ask_health_form_goal:
   - text: Setting goals - even small ones - is a great way to focus your day. What do you want to accomplish today 🥇 ?
@@ -86,7 +83,7 @@ responses:
   - text: No Problem :)
 
   utter_ask_continue:
-  - text: Sorry, I don't quire understand. Do you want to continue?
+  - text: Sorry, I don't quite understand. Do you want to continue?
 
 actions:
 - validate_health_form
@@ -128,4 +125,4 @@ forms:
 
 session_config:
   session_expiration_time: 60
-  carry_over_slots_to_new_session: true
+  carry_over_slots_to_new_session: false

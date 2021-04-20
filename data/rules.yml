@@ -15,3 +15,8 @@ rules:
   - active_loop: null
   - action: utter_slots_value
   - action: action_restart
+
+- rule: Challenging Rasa Bot
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
