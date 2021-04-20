@@ -1,0 +1,51 @@
+version: "2.0"
+
+stories:
+
+- story: Greet user back
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- story: Thank you, end and reset
+  steps:
+  - intent: thankyou
+  - action: utter_no_worries
+  - action: utter_goodbye
+  - action: action_restart
+
+- story: No Form
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: deny
+  - action: utter_no_worries
+  - action: utter_goodbye
+  - action: action_restart
+
+- story: Sad Path 1 - Retry
+  steps:
+  - intent: affirm
+  - action: health_form
+  - active_loop: health_form
+  - intent: out_of_scope
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: health_form
+  - active_loop: null
+  - action: utter_slots_value
+  - action: action_restart
+
+- story: Sad Path 2 - Stop
+  steps:
+  - intent: affirm
+  - action: health_form
+  - active_loop: health_form
+  - intent: out_of_scope
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_no_worries
+  - action: utter_goodbye
+  - action: action_restart

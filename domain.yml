@@ -1,3 +1,5 @@
+version: '2.0'
+
 intents:
   - greet
   - goodbye
@@ -5,8 +7,28 @@ intents:
   - deny
   - bot_challenge
   - inform
-  - thankyou
   - out_of_scope
+  - thankyou
+
+slots:
+  confirm_exercise:
+    type: bool
+    influence_conversation: false
+  exercise:
+    type: text
+    influence_conversation: false
+  sleep:
+    type: text
+    influence_conversation: false
+  diet:
+    type: text
+    influence_conversation: false
+  stress:
+    type: text
+    influence_conversation: false
+  goal:
+    type: text
+    influence_conversation: false
 
 entities:
   - exercise
@@ -15,63 +37,92 @@ entities:
 
 responses:
   utter_greet:
-  - text: "Hi! It's time for your daily wellness check. Tracking healthy habits is a great way to measure your progress over time. Would you like to answer a few questions about your health?"
+  - text: Hi! It's time for your daily wellness check. Tracking healthy habits is a great way to measure your progress over time. Would you like to answer few questions about your health?
 
   utter_goodbye:
-  - text: "See you tomorrow. Bye!"
+  - text: Bye
 
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
-  
-  utter_ask_confirm_exercise:
+  - text: I am a bot, powered by Rasa.
+
+  utter_ask_health_form_confirm_exercise:
   - text: Did you exercise yesterday? Don't sweat it if you didn't run a marathon - walks count!
-  utter_ask_exercise:
-  - text: What kind of exercise did you do 💪 ?
-  utter_ask_sleep:
-  - text: "How much sleep did you get 💤  last night?"
-  utter_ask_diet:
-  - text: "Did you stick to a healthy diet 🥦  yesterday?"
-  utter_ask_stress:
-  - text: "What is your stress level right now 🧘 ?"
+
+  utter_ask_health_form_sleep:
+  - text: How much sleep did you get 💤 last night?
+
+  utter_ask_health_form_exercise :
+  - text: What kind of exercise did you do?
+
+  utter_ask_health_form_diet:
+  - text: Did you stick to a healthy diet 🥦 yesterday?
+
+  utter_ask_health_form_stress:
+  - text: Is your stress level low, medium or high 🧘🏼?
     buttons:
-      - title: "low"
-        payload: '/inform{"stress": "low"}'
-      - title: "medium"
-        payload: '/inform{"stress": "medium"}'
-      - title: "high"
-        payload: '/inform{"stress": "high"}'
-  utter_ask_goal:
-  - text: "Setting goals - even small ones - is a great way to focus your day. What do you want to accomplish today 🥇 ?"
-  utter_slots_values:
-  - text: "You've submitted the following answers:\n
+    - title: "Low"
+      payload: '/inform{{"stress": "low"}}'
+    - title: "Medium"
+      payload: '/inform{{"stress": "medium"}}'
+    - title: "High"
+      payload: '/inform{{"stress": "high"}}'
+
+  utter_ask_health_form_goal:
+  - text: Setting goals - even small ones - is a great way to focus your day. What do you want to accomplish today 🥇 ?
+
+  utter_slots_value:
+  - text: "Here's your daily wellness log:\n
             - Exercised?: {confirm_exercise}\n
             - Type of exercise: {exercise}\n
             - Sleep: {sleep}\n
             - Stuck to a healthy diet?: {diet}\n
             - Stress level: {stress}\n
             - Goal: {goal}"
-  utter_no_worries:
-  - text: "No problem :)"
-  utter_ask_continue:
-  - text: "Sorry, I don't quite understand. Do you want to continue?"
 
-slots:
-  confirm_exercise:
-    type: unfeaturized
-  exercise:
-    type: unfeaturized
-  sleep:
-    type: unfeaturized
-  diet:
-    type: unfeaturized
-  stress:
-    type: unfeaturized
-  goal:
-    type: unfeaturized
+  utter_no_worries:
+  - text: No Problem :)
+
+  utter_ask_continue:
+  - text: Sorry, I don't quite understand. Do you want to continue?
+
+actions:
+- validate_health_form
+
+forms:
+  health_form:
+    confirm_exercise:
+    - type: from_intent
+      intent: inform
+      value: true
+    - type: from_intent
+      intent: affirm
+      value: true
+    - type: from_intent
+      intent: deny
+      value: false
+    exercise:
+    - type: from_entity
+      entity: exercise
+    sleep:
+    - type: from_entity
+      entity: sleep
+    - type: from_intent
+      intent: deny
+      value: "None"
+    diet:
+    - type: from_text
+      intent: inform
+    - type: from_text
+      intent: affirm
+    - type: from_text
+      intent: deny
+    stress:
+    - type: from_entity
+      entity: stress
+    goal:
+    - type: from_text
+      intent: inform
 
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: false
-
-forms:
-  - health_form
